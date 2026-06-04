@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Students - Ikonex Academy</title>
+    <link rel="stylesheet" href="../css/style.css">
+</head>
+<body>
+    <div class="container">
+        <aside class="sidebar">
+            <div class="logo">
+                <h2>Ikonex Academy</h2>
+                <p>SMS</p>
+            </div>
+            <nav class="nav-menu">
+                <a href="../index.html" class="nav-item">📊 Dashboard</a>
+                <a href="students.html" class="nav-item active">👨‍🎓 Students</a>
+                <a href="class-streams.html" class="nav-item">📚 Class Streams</a>
+                <a href="subjects.html" class="nav-item">📖 Subjects</a>
+                <a href="scores.html" class="nav-item">✏️ Enter Scores</a>
+                <a href="reports.html" class="nav-item">📈 Reports</a>
+            </nav>
+        </aside>
+
+        <main class="main-content">
+            <header class="header">
+                <h1>Student Management</h1>
+                <button class="btn btn-primary" onclick="openAddStudentModal()">+ Register New Student</button>
+            </header>
+
+            <div class="table-container">
+                <table class="data-table">
+                    <thead>
+                        <tr><th>Admission No</th><th>Full Name</th><th>Class</th><th>Actions</th></tr>
+                    </thead>
+                    <tbody id="studentsTableBody">
+                        <tr><td colspan="4">Loading...</td></tr>
+                    </tbody>
+                </table>
+            </div>
+        </main>
+    </div>
+
+    <!-- Add/Edit Student Modal -->
+    <div id="studentModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 id="modalTitle">Register New Student</h2>
+                <span class="close" onclick="closeModal()">&times;</span>
+            </div>
+            <form id="studentForm" onsubmit="saveStudent(event)">
+                <input type="hidden" id="studentId">
+                <div class="form-group">
+                    <label>Admission Number</label>
+                    <input type="text" id="admissionNumber" required>
+                </div>
+                <div class="form-group">
+                    <label>Full Name</label>
+                    <input type="text" id="fullName" required>
+                </div>
+                <div class="form-group">
+                    <label>Class Stream</label>
+                    <select id="classStreamId" required></select>
+                </div>
+                <div class="form-group">
+                    <button type="submit" class="btn btn-primary">Save Student</button>
+                    <button type="button" class="btn" onclick="closeModal()">Cancel</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script src="../js/config.js"></script>
+    <script src="../js/api.js"></script>
+    <script src="../js/students.js"></script>
+</body>
+</html>

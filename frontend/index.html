@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ikonex Academy - Student Management System</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <div class="container">
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <div class="logo">
+                <h2>Ikonex Academy</h2>
+                <p>Student Management System</p>
+            </div>
+            <nav class="nav-menu">
+                <a href="index.html" class="nav-item active">📊 Dashboard</a>
+                <a href="pages/students.html" class="nav-item">👨‍🎓 Students</a>
+                <a href="pages/class-streams.html" class="nav-item">📚 Class Streams</a>
+                <a href="pages/subjects.html" class="nav-item">📖 Subjects</a>
+                <a href="pages/scores.html" class="nav-item">✏️ Enter Scores</a>
+                <a href="pages/reports.html" class="nav-item">📈 Reports</a>
+            </nav>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <header class="header">
+                <h1>Dashboard</h1>
+                <div class="date" id="currentDate"></div>
+            </header>
+
+            <div class="stats-grid" id="statsGrid">
+                <div class="stat-card">
+                    <div class="stat-icon">👨‍🎓</div>
+                    <div class="stat-info">
+                        <h3 id="totalStudents">0</h3>
+                        <p>Total Students</p>
+                    </div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon">📚</div>
+                    <div class="stat-info">
+                        <h3 id="totalClasses">0</h3>
+                        <p>Class Streams</p>
+                    </div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon">📖</div>
+                    <div class="stat-info">
+                        <h3 id="totalSubjects">0</h3>
+                        <p>Subjects</p>
+                    </div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon">⭐</div>
+                    <div class="stat-info">
+                        <h3 id="avgPerformance">0%</h3>
+                        <p>Avg Performance</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="recent-section">
+                <h2>Recent Students</h2>
+                <div class="table-container">
+                    <table class="data-table" id="recentStudentsTable">
+                        <thead>
+                            <tr><th>Admission No</th><th>Full Name</th><th>Class</th><th>Action</th></tr>
+                        </thead>
+                        <tbody id="recentStudentsBody">
+                            <tr><td colspan="4">Loading...</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script src="js/config.js"></script>
+    <script src="js/api.js"></script>
+    <script src="js/dashboard.js"></script>
+</body>
+</html>

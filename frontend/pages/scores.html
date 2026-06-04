@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Enter Scores - Ikonex Academy</title>
+    <link rel="stylesheet" href="../css/style.css">
+</head>
+<body>
+    <div class="container">
+        <aside class="sidebar">
+            <div class="logo">
+                <h2>Ikonex Academy</h2>
+                <p>SMS</p>
+            </div>
+            <nav class="nav-menu">
+                <a href="../index.html" class="nav-item">📊 Dashboard</a>
+                <a href="students.html" class="nav-item">👨‍🎓 Students</a>
+                <a href="class-streams.html" class="nav-item">📚 Class Streams</a>
+                <a href="subjects.html" class="nav-item">📖 Subjects</a>
+                <a href="scores.html" class="nav-item active">✏️ Enter Scores</a>
+                <a href="reports.html" class="nav-item">📈 Reports</a>
+            </nav>
+        </aside>
+
+        <main class="main-content">
+            <header class="header">
+                <h1>Enter Student Scores</h1>
+            </header>
+
+            <div class="form-container">
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>Select Class</label>
+                        <select id="classSelect" onchange="loadStudentsByClass(); loadSubjectsForScore()">
+                            <option value="">Select Class</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>Select Student</label>
+                        <select id="studentSelect">
+                            <option value="">Select Student</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+
+            <div id="scoresForm" style="display:none;">
+                <div class="form-container">
+                    <h3>Enter Scores</h3>
+                    <form id="scoreForm" onsubmit="saveAllScores(event)">
+                        <div id="subjectsContainer"></div>
+                        <div class="form-group">
+                            <button type="submit" class="btn btn-primary">Save All Scores</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script src="../js/config.js"></script>
+    <script src="../js/api.js"></script>
+    <script src="../js/scores.js"></script>
+</body>
+</html>
