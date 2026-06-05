@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Reports - Ikonex Academy</title>
     <link rel="stylesheet" href="../css/style.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
 </head>
 <body>
     <div class="container">
@@ -42,18 +43,9 @@
                     <h3>Class Ranking</h3>
                     <table class="data-table">
                         <thead>
-                            <tr>
-                                <th>Position</th>
-                                <th>Admission No</th>
-                                <th>Student Name</th>
-                                <th>Total Marks</th>
-                                <th>Average</th>
-                                <th>Grade</th>
-                            </tr>
+                            <tr><th>Position</th><th>Admission No</th><th>Student Name</th><th>Total Marks</th><th>Average</th><th>Grade</th></tr>
                         </thead>
-                        <tbody id="rankingBody">
-                            <tr><td colspan="6">Select a class to view ranking</td></tr>
-                        </tbody>
+                        <tbody id="rankingBody"></tbody>
                     </table>
                 </div>
             </div>
@@ -61,34 +53,36 @@
     </div>
 
     <script>
-        // YOUR BACKEND IS ON PORT 5001
+        // DIRECT API URL - NO DEPENDENCIES
         const API_URL = 'http://localhost:5001/api';
-        
-        // Load classes when page loads
+        const CURRENT_TERM = 'Term 1';
+        const CURRENT_YEAR = '2025-2026';
+
+        // Load classes
         async function loadClasses() {
             try {
                 const response = await fetch(API_URL + '/class-streams');
-                const result = await response.json();
+                const data = await response.json();
                 
                 const select = document.getElementById('classSelect');
                 select.innerHTML = '<option value="">-- Select a class --</option>';
                 
-                if (result.success && result.data) {
-                    for (let i = 0; i < result.data.length; i++) {
-                        const cls = result.data[i];
-                        const option = document.createElement('option');
-                        option.value = cls.id;
-                        option.textContent = cls.name + ' (' + cls.code + ')';
-                        select.appendChild(option);
-                    }
+                for (let i = 0; i < data.data.length; i++) {
+                    const cls = data.data[i];
+                    const option = document.createElement('option');
+                    option.value = cls.id;
+                    option.textContent = cls.name + ' (' + cls.code + ')';
+                    select.appendChild(option);
                 }
+                
+                console.log('Classes loaded:', data.data.length);
             } catch (error) {
                 console.error('Error:', error);
-                document.getElementById('classSelect').innerHTML = '<option value="">Backend not running on port 5001</option>';
+                alert('Error loading classes: ' + error.message);
             }
         }
 
-        // Load ranking when class is selected
+        // Load ranking
         async function loadRanking() {
             const classId = document.getElementById('classSelect').value;
             if (!classId) {
@@ -98,17 +92,17 @@
             
             document.getElementById('rankingContainer').style.display = 'block';
             const tbody = document.getElementById('rankingBody');
-            tbody.innerHTML = '<tr><td colspan="6">Loading...</td></tr>';
+            tbody.innerHTML = '<td><td colspan="6">Loading...</td></tr>';
             
             try {
-                const url = API_URL + '/reports/class-ranking/' + classId + '/Term%201/2025-2026';
+                const url = API_URL + '/reports/class-ranking/' + classId + '/' + CURRENT_TERM + '/' + CURRENT_YEAR;
                 const response = await fetch(url);
-                const result = await response.json();
+                const data = await response.json();
                 
-                if (result.success && result.data && result.data.length > 0) {
+                if (data.success && data.data.length > 0) {
                     let html = '';
-                    for (let i = 0; i < result.data.length; i++) {
-                        const s = result.data[i];
+                    for (let i = 0; i < data.data.length; i++) {
+                        const s = data.data[i];
                         let grade = 'E';
                         if (s.average_score >= 80) grade = 'A';
                         else if (s.average_score >= 70) grade = 'B';
@@ -126,18 +120,17 @@
                     }
                     tbody.innerHTML = html;
                 } else {
-                    tbody.innerHTML = '<tr><td colspan="6">No scores entered for this class yet.</td></tr>';
+                    tbody.innerHTML = '<tr><td colspan="6">No scores entered for this class yet. Go to Enter Scores page first. </td></tr>';
                 }
             } catch (error) {
+                console.error('Error:', error);
                 tbody.innerHTML = '<tr><td colspan="6">Error: ' + error.message + '</td></tr>';
             }
         }
 
-        // Setup when page loads
-        document.addEventListener('DOMContentLoaded', function() {
-            loadClasses();
-            document.getElementById('classSelect').onchange = loadRanking;
-        });
+        // Initialize
+        loadClasses();
+        document.getElementById('classSelect').onchange = loadRanking;
     </script>
 </body>
 </html>
