@@ -6,12 +6,11 @@ const pool = new Pool({
     ssl: { rejectUnauthorized: false }
 });
 
-// Override query to return rows directly (for compatibility)
+// Override query to return rows directly
 const originalQuery = pool.query.bind(pool);
 pool.query = async (text, params) => {
     const result = await originalQuery(text, params);
-    // Return just the rows for simpler usage
-    return result.rows;
+    return result.rows; // Return rows directly
 };
 
 async function testConnection() {
