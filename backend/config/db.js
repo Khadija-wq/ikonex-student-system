@@ -1,21 +1,16 @@
-const mysql = require('mysql2/promise');
+const { Pool } = require('pg');
 require('dotenv').config();
 
-const pool = mysql.createPool({
-    host: process.env.DB_HOST || 'localhost',
-    user: process.env.DB_USER || 'root',
-    password: process.env.DB_PASSWORD || '',
-    database: process.env.DB_NAME || 'ikonex_academy',
-    waitForConnections: true,
-    connectionLimit: 10,
-    queueLimit: 0
+const pool = new Pool({
+    connectionString: process.env.DATABASE_URL,
+    ssl: { rejectUnauthorized: false }
 });
 
 async function testConnection() {
     try {
-        const connection = await pool.getConnection();
+        const client = await pool.connect();
         console.log('✅ Database connected successfully');
-        connection.release();
+        client.release();
         return true;
     } catch (error) {
         console.error('❌ Database connection failed:', error.message);
