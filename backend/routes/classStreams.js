@@ -2,10 +2,11 @@ const express = require('express');
 const router = express.Router();
 
 // GET all class streams
+// GET all class streams
 router.get('/', async (req, res) => {
     try {
         const result = await req.db.query('SELECT * FROM class_streams ORDER BY name');
-        res.json({ success: true, data: result || [] });
+        res.json(result || []); // Return the array directly
     } catch (error) {
         res.status(500).json({ success: false, error: error.message });
     }

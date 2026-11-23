@@ -2,10 +2,11 @@ const express = require('express');
 const router = express.Router();
 
 // GET all subjects
+// GET all subjects
 router.get('/', async (req, res) => {
     try {
         const result = await req.db.query('SELECT * FROM subjects ORDER BY name');
-        res.json({ success: true, data: result || [] });
+        res.json(result || []); // Return the array directly
     } catch (error) {
         res.status(500).json({ success: false, error: error.message });
     }
