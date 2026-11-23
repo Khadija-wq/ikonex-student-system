@@ -15,9 +15,14 @@ async function loadDashboardStats() {
         const classes = await getClassStreams();
         const subjects = await getSubjects();
         
-        document.getElementById('totalStudents').textContent = students.length;
-        document.getElementById('totalClasses').textContent = classes.length;
-        document.getElementById('totalSubjects').textContent = subjects.length;
+        // Safety check: ensure we are getting arrays back
+        const studentCount = Array.isArray(students) ? students.length : 0;
+        const classCount = Array.isArray(classes) ? classes.length : 0;
+        const subjectCount = Array.isArray(subjects) ? subjects.length : 0;
+        
+        document.getElementById('totalStudents').textContent = studentCount;
+        document.getElementById('totalClasses').textContent = classCount;
+        document.getElementById('totalSubjects').textContent = subjectCount;
         document.getElementById('avgPerformance').textContent = '75%';
     } catch (error) {
         console.error('Error loading stats:', error);
@@ -26,11 +31,14 @@ async function loadDashboardStats() {
 
 // Load recent students
 async function loadRecentStudents() {
+    const tbody = document.getElementById('recentStudentsBody');
+    
     try {
         const students = await getStudents();
-        const recentStudents = students.slice(0, 5);
         
-        const tbody = document.getElementById('recentStudentsBody');
+        // Safety check: ensure students is an array before slicing
+        const recentStudents = Array.isArray(students) ? students.slice(0, 5) : [];
+        
         if (recentStudents.length === 0) {
             tbody.innerHTML = '<tr><td colspan="4">No students found</td></tr>';
             return;
@@ -38,14 +46,17 @@ async function loadRecentStudents() {
         
         tbody.innerHTML = recentStudents.map(student => `
             <tr>
-                <td>${student.admission_number}</td>
-                <td>${student.full_name}</td>
-                <td>${student.class_name}</td>
+                <td>${student.admission_number || 'N/A'}</td>
+                <td>${student.full_name || 'N/A'}</td>
+                <td>${student.class_name || 'N/A'}</td>
                 <td><button class="btn btn-primary btn-sm" onclick="alert('View student ID: ${student.id}')">View</button></td>
             </tr>
         `).join('');
+        
     } catch (error) {
         console.error('Error loading recent students:', error);
+        // If the API fails, show this instead of staying stuck on "Loading..."
+        tbody.innerHTML = '<tr><td colspan="4" style="color: red;">Failed to load data. Check console.</td></tr>';
     }
 }
 
