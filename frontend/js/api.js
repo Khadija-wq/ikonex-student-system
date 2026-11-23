@@ -16,127 +16,108 @@ async function apiFetch(endpoint, options = {}) {
 
 // ============ CLASS STREAMS ============
 async function getClassStreams() {
-    const response = await apiFetch('/class-streams');
-    return response.data;
+    return await apiFetch('/class-streams'); // Fixed
 }
 
 async function createClassStream(data) {
-    const response = await apiFetch('/class-streams', {
+    return await apiFetch('/class-streams', {
         method: 'POST',
         body: JSON.stringify(data)
-    });
-    return response.data;
+    }); // Fixed
 }
 
 async function updateClassStream(id, data) {
-    const response = await apiFetch(`/class-streams/${id}`, {
+    return await apiFetch(`/class-streams/${id}`, {
         method: 'PUT',
         body: JSON.stringify(data)
-    });
-    return response;
+    }); // Fixed
 }
 
 async function deleteClassStream(id) {
-    const response = await apiFetch(`/class-streams/${id}`, {
+    return await apiFetch(`/class-streams/${id}`, {
         method: 'DELETE'
-    });
-    return response;
+    }); // Fixed
 }
 
 // ============ STUDENTS ============
 async function getStudents() {
-    const response = await apiFetch('/students');
-    return response.data;
+    return await apiFetch('/students'); // Fixed
 }
 
 async function getStudentsByClass(classId) {
-    const response = await apiFetch(`/students/class/${classId}`);
-    return response.data;
+    return await apiFetch(`/students/class/${classId}`); // Fixed
 }
 
 async function getStudent(id) {
-    const response = await apiFetch(`/students/${id}`);
-    return response.data;
+    return await apiFetch(`/students/${id}`); // Fixed
 }
 
 async function createStudent(data) {
-    const response = await apiFetch('/students', {
+    return await apiFetch('/students', {
         method: 'POST',
         body: JSON.stringify(data)
-    });
-    return response.data;
+    }); // Fixed
 }
 
 async function updateStudent(id, data) {
-    const response = await apiFetch(`/students/${id}`, {
+    return await apiFetch(`/students/${id}`, {
         method: 'PUT',
         body: JSON.stringify(data)
-    });
-    return response;
+    }); // Fixed
 }
 
 async function deleteStudent(id) {
-    const response = await apiFetch(`/students/${id}`, {
+    return await apiFetch(`/students/${id}`, {
         method: 'DELETE'
-    });
-    return response;
+    }); // Fixed
 }
 
 // ============ SUBJECTS ============
 async function getSubjects() {
-    const response = await apiFetch('/subjects');
-    return response.data;
+    return await apiFetch('/subjects'); // Fixed
 }
 
 async function getSubjectsByClass(classId) {
-    const response = await apiFetch(`/subjects/class/${classId}`);
-    return response.data;
+    return await apiFetch(`/subjects/class/${classId}`); // Fixed
 }
 
 async function createSubject(data) {
-    const response = await apiFetch('/subjects', {
+    return await apiFetch('/subjects', {
         method: 'POST',
         body: JSON.stringify(data)
-    });
-    return response.data;
+    }); // Fixed
 }
 
 async function updateSubject(id, data) {
-    const response = await apiFetch(`/subjects/${id}`, {
+    return await apiFetch(`/subjects/${id}`, {
         method: 'PUT',
         body: JSON.stringify(data)
-    });
-    return response;
+    }); // Fixed
 }
 
 async function deleteSubject(id) {
-    const response = await apiFetch(`/subjects/${id}`, {
+    return await apiFetch(`/subjects/${id}`, {
         method: 'DELETE'
-    });
-    return response;
+    }); // Fixed
 }
 
 // ============ SCORES ============
 async function enterScore(data) {
-    const response = await apiFetch('/scores', {
+    return await apiFetch('/scores', {
         method: 'POST',
         body: JSON.stringify(data)
-    });
-    return response;
+    }); // Fixed
 }
 
 async function getStudentScores(studentId, term, year) {
-    const response = await apiFetch(`/scores/student/${studentId}/${term}/${year}`);
-    return response.data;
+    return await apiFetch(`/scores/student/${studentId}/${term}/${year}`); // Fixed
 }
 
 // ============ REPORTS ============
 async function getClassRanking(classId, term, year) {
-    const response = await apiFetch(`/reports/class-ranking/${classId}/${term}/${year}`);
-    return response.data;
+    return await apiFetch(`/reports/class-ranking/${classId}/${term}/${year}`); // Fixed
 }
 
 async function getStudentReport(studentId, term, year) {
-    const response = await apiFetch(`/reports/student-report/${studentId}/${term}/${year}`);
-    return response.data;
+    return await apiFetch(`/reports/student-report/${studentId}/${term}/${year}`); // Fixed
 }
