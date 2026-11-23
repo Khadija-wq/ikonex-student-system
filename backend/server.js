@@ -41,15 +41,19 @@ app.get('/', (req, res) => {
 const PORT = process.env.PORT || 5000;
 
 async function startServer() {
-    const dbConnected = await testConnection();
-    if (dbConnected) {
-        app.listen(PORT, () => {
-            console.log(`🚀 Server running on http://localhost:${PORT}`);
-        });
-    } else {
-        console.error('Cannot start server without database connection');
-        process.exit(1);
+    try {
+        const dbConnected = await testConnection();
+        if (dbConnected) {
+            console.log('✅ Database connected successfully');
+        } else {
+            console.warn('⚠️ Database connection failed, but starting server anyway');
+        }
+    } catch (error) {
+        console.warn('⚠️ Database connection error:', error.message);
     }
-}
 
-startServer();
+    // Start the server regardless of the DB status
+    app.listen(PORT, '0.0.0.0', () => {
+        console.log(`🚀 Server running on port ${PORT}`);
+    });
+}
