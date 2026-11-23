@@ -3,9 +3,19 @@ const cors = require('cors');
 const { pool, testConnection } = require('./config/db');
 
 const app = express();
-app.use(cors());
+
+// Explicitly allow your Netlify frontend
+app.use(cors({
+    origin: 'https://ikonex-student-system.netlify.app',
+    methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+    allowedHeaders: ['Content-Type', 'Authorization']
+}));
+
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
+
+// Handle preflight requests explicitly (this fixes the ERR_FAILED issue)
+app.options('*', cors());
 
 app.use((req, res, next) => {
     req.db = pool;
