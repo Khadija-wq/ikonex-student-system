@@ -27,7 +27,7 @@
         <!-- Main Content -->
         <main class="main-content">
             
-            <!-- New Welcome Header -->
+            <!-- Welcome Header -->
             <header class="header" style="display: flex; justify-content: space-between; align-items: center; background: white; padding: 20px; border-radius: 12px; box-shadow: 0 2px 10px rgba(0,0,0,0.05); margin-bottom: 20px;">
                 <div>
                     <h1 style="margin: 0; font-size: 24px; color: #333;">School Dashboard</h1>
@@ -40,6 +40,7 @@
                     <div style="width: 40px; height: 40px; background: #6a5acd; color: white; border-radius: 50%; display: flex; justify-content: center; align-items: center; font-weight: bold; font-size: 18px;">
                         A
                     </div>
+                    <button onclick="logout()" class="btn btn-danger btn-sm" style="margin-left: 10px;">Logout</button>
                 </div>
             </header>
 
@@ -111,5 +112,13 @@
     <script src="js/config.js"></script>
     <script src="js/api.js"></script>
     <script src="js/dashboard.js"></script>
+    
+    <!-- Logout Script -->
+    <script>
+        function logout() {
+            localStorage.removeItem('isLoggedIn');
+            window.location.href = 'login.html';
+        }
+    </script>
 </body>
 </html>

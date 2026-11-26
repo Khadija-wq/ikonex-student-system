@@ -1,3 +1,7 @@
+// Check if user is logged in
+if (localStorage.getItem('isLoggedIn') !== 'true') {
+    window.location.href = 'login.html';
+}
 // Display current date
 function displayCurrentDate() {
     const dateElement = document.getElementById('currentDate');
