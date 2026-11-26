@@ -1,5 +1,4 @@
 <!DOCTYPE html>
-<!-- Force update: 2026-11-26 -->
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -40,11 +39,23 @@
             </div>
 
             <div id="rankingContainer" style="display: none;">
-                <div class="table-container">
-                    <h3>Class Ranking</h3>
+                <div class="table-container" id="pdf-content">
+                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px;">
+                        <h3 style="margin: 0;">Class Ranking</h3>
+                        <button onclick="downloadPDF()" class="btn btn-primary" style="background-color: #6a5acd; color: white; padding: 8px 16px; border: none; border-radius: 4px; cursor: pointer;">
+                            📥 Download PDF
+                        </button>
+                    </div>
                     <table class="data-table">
                         <thead>
-                            <tr><th>Position</th><th>Admission No</th><th>Student Name</th><th>Total Marks</th><th>Average</th><th>Grade</th></tr>
+                            <tr>
+                                <th>Position</th>
+                                <th>Admission No</th>
+                                <th>Student Name</th>
+                                <th>Total Marks</th>
+                                <th>Average</th>
+                                <th>Grade</th>
+                            </tr>
                         </thead>
                         <tbody id="rankingBody"></tbody>
                     </table>
@@ -68,7 +79,6 @@
                 const select = document.getElementById('classSelect');
                 select.innerHTML = '<option value="">-- Select a class --</option>';
                 
-                // FIX: Ensure data is an array
                 if (Array.isArray(data)) {
                     data.forEach(cls => {
                         const option = document.createElement('option');
@@ -103,7 +113,6 @@
                 const response = await fetch(url);
                 const data = await response.json();
                 
-                // FIX: Ensure data is an array
                 if (Array.isArray(data) && data.length > 0) {
                     let html = '';
                     data.forEach((s, i) => {
@@ -130,6 +139,27 @@
                 console.error('Error:', error);
                 tbody.innerHTML = '<tr><td colspan="6">Error: ' + error.message + '</td></tr>';
             }
+        }
+
+        // Download PDF Function
+        function downloadPDF() {
+            // Select the content to print (we added id="pdf-content" to the container)
+            const element = document.getElementById('pdf-content');
+            
+            // Get the class name for the filename
+            const classSelect = document.getElementById('classSelect');
+            const className = classSelect.options[classSelect.selectedIndex].text;
+            
+            const opt = {
+                margin:       0.5,
+                filename:     `Ranking_${className.replace(/\s+/g, '_')}.pdf`,
+                image:        { type: 'jpeg', quality: 0.98 },
+                html2canvas:  { scale: 2 },
+                jsPDF:        { unit: 'in', format: 'letter', orientation: 'portrait' }
+            };
+
+            // Generate and save the PDF
+            html2pdf().set(opt).from(element).save();
         }
 
         // Initialize
