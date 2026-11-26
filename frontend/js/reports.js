@@ -1,5 +1,5 @@
-// Reports page - Backend on port 5001
-const BACKEND_URL = 'http://localhost:5001/api';
+// Reports page - Connected to Live Render Backend
+const BACKEND_URL = 'https://ikonex-student-system-1.onrender.com/api';
 
 console.log('Reports loaded - Backend:', BACKEND_URL);
 
@@ -7,7 +7,7 @@ window.addEventListener('load', async () => {
     console.log('Page loaded');
     
     try {
-        // Load classes
+        // Load classes (Now returns an array directly)
         const classRes = await fetch(BACKEND_URL + '/class-streams');
         const classData = await classRes.json();
         console.log('Classes:', classData);
@@ -15,14 +15,15 @@ window.addEventListener('load', async () => {
         const select = document.getElementById('classSelect');
         select.innerHTML = '<option value="">Select Class</option>';
         
-        if (classData.success && classData.data.length > 0) {
-            classData.data.forEach(c => {
+        // FIX: Check if classData is an array
+        if (Array.isArray(classData) && classData.length > 0) {
+            classData.forEach(c => {
                 const option = document.createElement('option');
                 option.value = c.id;
                 option.textContent = `${c.name} (${c.code})`;
                 select.appendChild(option);
             });
-            console.log('Added', classData.data.length, 'classes');
+            console.log('Added', classData.length, 'classes');
         }
         
         // When class selected
@@ -41,8 +42,10 @@ window.addEventListener('load', async () => {
                 console.log('Ranking:', rankData);
                 
                 const tbody = document.getElementById('rankingBody');
-                if (rankData.success && rankData.data && rankData.data.length > 0) {
-                    tbody.innerHTML = rankData.data.map(s => `
+                
+                // FIX: Check if rankData is an array
+                if (Array.isArray(rankData) && rankData.length > 0) {
+                    tbody.innerHTML = rankData.map(s => `
                         <tr>
                             <td>${s.position || '-'}</td>
                             <td>${s.admission_number || '-'}</td>
@@ -59,12 +62,12 @@ window.addEventListener('load', async () => {
                 }
             } catch (err) {
                 console.error('Error loading ranking:', err);
-                document.getElementById('rankingBody').innerHTML = '<tr><td colspan="6">Error loading ranking. Make sure backend is running.</td></tr>';
+                document.getElementById('rankingBody').innerHTML = '<tr><td colspan="6">Error loading ranking. Check your connection.</td></tr>';
             }
         };
         
     } catch (err) {
         console.error('Error loading classes:', err);
-        alert('Error: ' + err.message + '\n\nMake sure backend is running on port 5001');
+        alert('Error: ' + err.message);
     }
 });
