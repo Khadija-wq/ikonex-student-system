@@ -114,11 +114,16 @@
     <script src="js/dashboard.js"></script>
     
     <!-- Logout Script -->
+       <!-- Logout Script -->
     <script>
         function logout() {
-            localStorage.removeItem('isLoggedIn');
-            window.location.href = 'login.html';
+            // Show a confirmation popup
+            if (confirm('Are you sure you want to log out?')) {
+                localStorage.removeItem('isLoggedIn');
+                window.location.href = 'login.html';
+            }
         }
+    </script>
     </script>
 </body>
 </html>
