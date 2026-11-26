@@ -26,11 +26,24 @@
 
         <!-- Main Content -->
         <main class="main-content">
-            <header class="header">
-                <h1>Dashboard</h1>
-                <div class="date" id="currentDate"></div>
+            
+            <!-- New Welcome Header -->
+            <header class="header" style="display: flex; justify-content: space-between; align-items: center; background: white; padding: 20px; border-radius: 12px; box-shadow: 0 2px 10px rgba(0,0,0,0.05); margin-bottom: 20px;">
+                <div>
+                    <h1 style="margin: 0; font-size: 24px; color: #333;">School Dashboard</h1>
+                    <p style="margin: 5px 0 0 0; color: #666; font-size: 14px;">
+                        Academic Year: <strong>2025-2026</strong> | Term: <strong>Term 1</strong>
+                    </p>
+                </div>
+                <div style="display: flex; align-items: center; gap: 15px;">
+                    <div style="text-align: right; font-size: 14px; color: #666;" id="currentDate"></div>
+                    <div style="width: 40px; height: 40px; background: #6a5acd; color: white; border-radius: 50%; display: flex; justify-content: center; align-items: center; font-weight: bold; font-size: 18px;">
+                        A
+                    </div>
+                </div>
             </header>
 
+            <!-- Stat Cards -->
             <div class="stats-grid" id="statsGrid">
                 <div class="stat-card">
                     <div class="stat-icon">👨‍🎓</div>
@@ -62,6 +75,23 @@
                 </div>
             </div>
 
+            <!-- Quick Actions Buttons -->
+            <div style="margin-bottom: 30px;">
+                <h3 style="margin-bottom: 15px; color: #333;">Quick Actions</h3>
+                <div style="display: flex; gap: 15px; flex-wrap: wrap;">
+                    <a href="pages/students.html" style="text-decoration: none; background: #6a5acd; color: white; padding: 12px 24px; border-radius: 8px; font-weight: 500; display: flex; align-items: center; gap: 8px; box-shadow: 0 4px 6px rgba(106, 90, 205, 0.3);">
+                        ➕ Add Student
+                    </a>
+                    <a href="pages/scores.html" style="text-decoration: none; background: white; color: #6a5acd; border: 2px solid #6a5acd; padding: 10px 24px; border-radius: 8px; font-weight: 500; display: flex; align-items: center; gap: 8px;">
+                        ✏️ Enter Scores
+                    </a>
+                    <a href="pages/reports.html" style="text-decoration: none; background: white; color: #6a5acd; border: 2px solid #6a5acd; padding: 10px 24px; border-radius: 8px; font-weight: 500; display: flex; align-items: center; gap: 8px;">
+                        📈 View Reports
+                    </a>
+                </div>
+            </div>
+
+            <!-- Recent Students Table -->
             <div class="recent-section">
                 <h2>Recent Students</h2>
                 <div class="table-container">
