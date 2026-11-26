@@ -38,10 +38,11 @@ router.get('/class-ranking/:classId/:term/:year', async (req, res) => {
             average_score: parseFloat(student.average_score) || 0
         }));
         
-        res.json({ success: true, data: rankedStudents });
+        // RETURN THE ARRAY DIRECTLY (Not wrapped in a data object)
+        res.json(rankedStudents);
     } catch (error) {
         console.error('Ranking error:', error);
-        res.status(500).json({ success: false, error: error.message });
+        res.status(500).json({ error: error.message });
     }
 });
 
