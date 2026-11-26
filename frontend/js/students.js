@@ -1,19 +1,19 @@
-// 1. Security Check: Ensure the user is logged in
+// 1. Security Check
 if (localStorage.getItem('isLoggedIn') !== 'true') {
-    // Because this file is in the /pages/ folder, we need to go up one level to find login.html
     window.location.href = '../login.html';
 }
 
-// 2. Load Students Table
+// 2. Load Students into the Table
 async function loadStudents() {
-    const tbody = document.getElementById('studentsBody'); // Make sure your HTML table body has this ID
+    // MATCHED ID with your HTML: studentsTableBody
+    const tbody = document.getElementById('studentsTableBody');
     if (!tbody) return;
 
     try {
         const students = await getStudents();
         
         if (!Array.isArray(students) || students.length === 0) {
-            tbody.innerHTML = '<tr><td colspan="5" style="text-align:center;">No students found. Add one above!</td></tr>';
+            tbody.innerHTML = '<tr><td colspan="4" style="text-align:center;">No students found. Click "Register New Student" to add one.</td></tr>';
             return;
         }
 
@@ -38,13 +38,14 @@ async function loadStudents() {
 
     } catch (error) {
         console.error('Error loading students:', error);
-        tbody.innerHTML = '<tr><td colspan="5" style="color: red; text-align:center;">Failed to load students.</td></tr>';
+        tbody.innerHTML = '<tr><td colspan="4" style="color: red; text-align:center;">Failed to load students. Check console.</td></tr>';
     }
 }
 
-// 3. Load Classes for the Dropdown
+// 3. Load Classes for the Dropdown inside the Modal
 async function loadClassesForDropdown() {
-    const select = document.getElementById('classStream');
+    // MATCHED ID with your HTML: classStreamId
+    const select = document.getElementById('classStreamId');
     if (!select) return;
 
     try {
@@ -64,13 +65,25 @@ async function loadClassesForDropdown() {
     }
 }
 
-// 4. Add New Student
-async function addStudent(event) {
+// 4. Open and Close the Modal
+function openAddStudentModal() {
+    document.getElementById('modalTitle').textContent = 'Register New Student';
+    document.getElementById('studentForm').reset();
+    document.getElementById('studentId').value = '';
+    document.getElementById('studentModal').style.display = 'block';
+}
+
+function closeModal() {
+    document.getElementById('studentModal').style.display = 'none';
+}
+
+// 5. Save Student (from the Modal form)
+async function saveStudent(event) {
     event.preventDefault();
     
     const admission_number = document.getElementById('admissionNumber').value;
     const full_name = document.getElementById('fullName').value;
-    const class_stream_id = document.getElementById('classStream').value;
+    const class_stream_id = document.getElementById('classStreamId').value;
 
     try {
         await createStudent({
@@ -79,24 +92,19 @@ async function addStudent(event) {
             class_stream_id
         });
         
-        // Clear form
-        document.getElementById('admissionNumber').value = '';
-        document.getElementById('fullName').value = '';
-        document.getElementById('classStream').value = '';
-        
-        // Reload table
-        loadStudents();
         alert('Student added successfully!');
+        closeModal();
+        loadStudents(); // Refresh the table
+        
     } catch (error) {
-        alert('Error adding student: ' + error.message);
+        alert('Error saving student: ' + error.message);
     }
 }
 
-// 5. Delete Student (Placeholder for now)
+// 6. Delete Student
 async function deleteStudent(id) {
     if (confirm('Are you sure you want to delete this student?')) {
         try {
-            // You will need to create the deleteStudent function in api.js
             // await apiDeleteStudent(id); 
             alert('Delete functionality coming soon!');
         } catch (error) {
@@ -109,9 +117,4 @@ async function deleteStudent(id) {
 document.addEventListener('DOMContentLoaded', () => {
     loadStudents();
     loadClassesForDropdown();
-
-    const form = document.getElementById('studentForm');
-    if (form) {
-        form.addEventListener('submit', addStudent);
-    }
 });
